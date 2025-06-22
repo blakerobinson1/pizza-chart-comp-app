@@ -19,22 +19,24 @@ Goal Metrics (QB):
 '''
 
 def train_xcomp_model(pbp, model_path="models/xcomp_model.joblib"):
-    df = filter_pass_plays(pbp)
-    X, y, preprocessor = preprocess_xcomp_data(df)
+    X, y, preprocessor = preprocess_xcomp_data(pbp)
     model = train_logistic_pipeline(X, y, preprocessor)
     save_model(model, model_path)
     return model
 
 
-pbp_data = load_all_pbp()
+if __name__ == "__main__":
+    pbp_data = (
+        load_all_pbp()
+        .pipe(filter_pass_plays)
+        .assign(obvious_pass=lambda df: np.where((df['down'] == 3) & (df['ydstogo'] >= 6), 1, 0))
+        .pipe(add_def_passing_avg_stats, 'complete_pass', 'sum', 'def_avg_comp_pct_allowed')
+        .pipe(add_def_passing_avg_stats, 'air_yards', 'sum', 'def_avg_air_yards_per_attempt_allowed')
+        .pipe(add_def_passing_avg_stats, 'air_epa', 'sum', 'def_avg_epa_allowed')
+        .pipe(add_def_passing_avg_stats, 'sack', 'sum', 'def_avg_sack_rate')
+    )
 
-add_def_passing_avg_stats(pbp_data, 'complete_pass', 'sum', 'def_avg_comp_pct_allowed')
-add_def_passing_avg_stats(pbp_data, 'air_yards', 'sum', 'def_avg_air_yards_per_attempt_allowed')
-add_def_passing_avg_stats(pbp_data, 'air_epa', 'sum', 'def_avg_epa_allowed')
-add_def_passing_avg_stats(pbp_data, 'pressure', 'sum', 'def_avg_pressure_rate')
-add_def_passing_avg_stats(pbp_data, 'sack', 'sum', 'def_avg_pressure_rate')
-
-train_xcomp_model(pbp_data)
+    train_xcomp_model(pbp_data)
 
 
 

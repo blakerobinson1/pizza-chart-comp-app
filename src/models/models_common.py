@@ -29,7 +29,7 @@ def add_def_passing_avg_stats(pbp, pbp_column, operation, new_column_name):
         (pbp['pass_attempt'] == 1) &
         (pbp['qb_spike'] != 1) &
         (pbp['play_type'] == 'pass') &
-        (pbp['pass_result'].isin(['C', 'I'])) & 
+        #(pbp['play_result'].isin(['C', 'I'])) & 
         ~(pbp['qb_dropback'].isna()) &
         ~((pbp['air_yards'] >= 40) & (pbp['half_seconds_remaining'] <= 15)) # dropping hail marys
     ].copy()
