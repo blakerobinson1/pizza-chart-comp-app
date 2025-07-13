@@ -6,7 +6,7 @@ from data.load_data import load_pbp_by_season
 1. Average Completion Percentage Allowed by Defense
 2. Average Air Yards per Attempt Allowed by Defense
 3. Average Expected Points Added (EPA) Allowed by Defense
-4. Average Pressure Rate by Defense
+4. Average Pressure Rate by Defense <-- pressure rate does not exist in pbp data
 5. Average Sack Rate by Defense
 """
 

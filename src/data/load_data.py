@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-DATA_DIR = "data"
+DATA_DIR = "data/pbp"
 
 def load_pbp_by_season(season):
     filename = f"pbp_{season}.parquet"
@@ -12,6 +12,19 @@ def load_pbp_by_season(season):
     else:
         print(f"No data found for season {season}")
         return pd.DataFrame()  
+
+def load_pbp_multiple_seasons(seasons):
+    dfs = []
+    for season in seasons:
+        df = load_pbp_by_season(season)
+        if not df.empty:
+            dfs.append(df)
+    if dfs:
+        combined_df = pd.concat(dfs, ignore_index=True)
+        return combined_df
+    else:
+        print("No data loaded for the specified seasons.")
+        return pd.DataFrame()
 
 
 def load_all_pbp():
