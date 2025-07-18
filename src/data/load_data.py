@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-DATA_DIR = "data/pbp"
+DATA_DIR = "data/pbp/"
 
 def load_pbp_by_season(season):
     filename = f"pbp_{season}.parquet"
@@ -10,7 +10,7 @@ def load_pbp_by_season(season):
         df = pd.read_parquet(path)
         return df
     else:
-        print(f"No data found for season {season}")
+        print(f"No data found for path {path}")
         return pd.DataFrame()  
 
 def load_pbp_multiple_seasons(seasons):
